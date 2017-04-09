@@ -1,0 +1,5 @@
+/.venv
+/.idea
+*.pyc
+/resources/docs
+/node_modules

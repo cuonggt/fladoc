@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block body_class %}
+home
+{% endblock %}
+
+{% block content %}
+<nav id="slide-menu" class="slide-menu" role="navigation">
+
+    <ul class="slide-main-nav">
+        {% include 'partials/main-nav.html' %}
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <div class="content">
+            <h1>Fladoc</h1>
+            <p>A <strong>modern</strong> markdown versionable documentation skeleton based on <strong>Flask</strong></p>
+            <p>
+                <a class="btn" href="/docs/">View Docs</a>
+            </p>
+        </div>
+        <div class="callouts">
+            <div class="callout minimal third">
+                <div class="callout-head">
+                    <div class="callout-title">
+                        <i class="fa fa-mobile"></i>
+                        <i class="fa fa-tablet"></i>
+                        <i class="fa fa-desktop"></i>
+                        Responsive
+                    </div>
+                </div>
+                <p>Designed for <strong>mobile</strong>-first</p>
+            </div>
+            <div class="callout minimal third">
+                <div class="callout-head">
+                    <div class="callout-title">
+                        <i class="fa fa fa-file-text"></i>
+                        Simple
+                    </div>
+                </div>
+                <p>Just need a <strong>markdown</strong> editor</p>
+            </div>
+            <div class="callout minimal third">
+                <div class="callout-head">
+                    <div class="callout-title">
+                        <i class="fa fa fa-clone"></i>
+                        Flexible
+                    </div>
+                </div>
+                <p>Make your documentation <strong>versionable</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

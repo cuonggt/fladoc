@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<nav id="slide-menu" class="slide-menu" role="navigation">
+    <div class="brand">
+        <a href="/">
+            <span>Fladoc</span>
+        </a>
+    </div>
+
+    <ul class="slide-main-nav">
+        <li><a href="/">Home</a></li>
+        {% include 'partials/main-nav.html' %}
+    </ul>
+
+    <div class="slide-docs-nav">
+        <h2>Documentation</h2>
+        {{ index | safe }}
+    </div>
+</nav>
+
+<div class="docs-wrapper container">
+    <section class="sidebar">
+        {{ index | safe }}
+    </section>
+
+    <article>
+        {{ content | safe }}
+    </article>
+</div>
+{% endblock %}
