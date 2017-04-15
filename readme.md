@@ -23,7 +23,7 @@ Then, you can start Fladoc:
 
 Default, Fladoc will run on http://127.0.0.1:5000/.
 
-![screenshot](https://photos-2.dropbox.com/t/2/AABM3QWKrC4OTF2IutMSceHYqD6MDD1_pTp8K8p64XC08A/12/2543832/png/32x32/3/1491984000/0/2/Screen%20Shot%202017-04-12%20at%2010.13.20%20AM.png/EI_n-gEYzM68QSAHKAc/HMBRGg5dNWN0kddhgX6_4GQr_1qtTCCEQaYtVolMTCk?dl=0&size=2048x1536&size_mode=3)
+![screenshot](https://cloud.githubusercontent.com/assets/8156596/25067246/942b4f24-2267-11e7-8777-8592b6b03946.png)
 
 ## Documentation
 
