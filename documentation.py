@@ -52,12 +52,12 @@ class Documentation:
 
         return content
 
+    def section_exist(self, version, page):
+        return os.path.isfile(self.base_path('/resources/docs/' + version + '/' + page + '.md'))
+
     @staticmethod
     def replace_links(version, content):
         return content.replace('{{version}}', version)
-
-    def section_exist(self, version, page):
-        return os.path.isfile(self.base_path('/resources/docs/' + version + '/' + page + '.md'))
 
     @staticmethod
     def base_path(path):

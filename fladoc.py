@@ -12,7 +12,7 @@ docs = Documentation(SimpleCache())
 
 @app.route('/')
 def welcome():
-    return render_template('welcome.html')
+    return render_template('welcome.html', current_version=DEFAULT_VERSION)
 
 
 @app.route('/docs/')
@@ -24,7 +24,7 @@ def show_root_page():
 @app.route('/docs/<version>/<page>')
 def show(version, page=None):
     if not is_version(version):
-        return redirect('/docs/' + DEFAULT_VERSION + '/' + version)
+        return redirect('/docs/' + DEFAULT_VERSION + '/' + version, 301)
 
     if page is None:
         page = ''
@@ -36,7 +36,7 @@ def show(version, page=None):
     if content is None:
         abort(404)
 
-    title = html.fromstring(content).xpath('//h1')[0].text
+    title = html.fromstring(content).xpath('//h1')
 
     section = ''
 
@@ -51,7 +51,7 @@ def show(version, page=None):
         canonical = '/docs/' + DEFAULT_VERSION + '/' + section_page
 
     return render_template('docs.html',
-                           title=title,
+                           title=title[0].text if len(title) > 0 else None,
                            index=docs.get_index(version),
                            content=content,
                            current_version=version,
