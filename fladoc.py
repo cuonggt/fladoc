@@ -1,10 +1,13 @@
 from flask import Flask, render_template, redirect, abort
 from documentation import Documentation
 from lxml import html
+from werkzeug.contrib.cache import SimpleCache
 
 DEFAULT_VERSION = '0.12'
 
 app = Flask(__name__, static_url_path='')
+
+docs = Documentation(SimpleCache())
 
 
 @app.route('/')
@@ -28,7 +31,7 @@ def show(version, page=None):
 
     section_page = page if page else 'installation'
 
-    content = Documentation.get(version, section_page)
+    content = docs.get(version, section_page)
 
     if content is None:
         abort(404)
@@ -37,19 +40,19 @@ def show(version, page=None):
 
     section = ''
 
-    if Documentation.section_exist(version, page):
+    if docs.section_exist(version, page):
         section += '/' + page
     elif page:
         return redirect('/docs' + version)
 
     canonical = ''
 
-    if Documentation.section_exist(DEFAULT_VERSION, section_page):
+    if docs.section_exist(DEFAULT_VERSION, section_page):
         canonical = '/docs/' + DEFAULT_VERSION + '/' + section_page
 
     return render_template('docs.html',
                            title=title,
-                           index=Documentation.get_index(version, page),
+                           index=docs.get_index(version),
                            content=content,
                            current_version=version,
                            versions=Documentation.get_doc_versions(),

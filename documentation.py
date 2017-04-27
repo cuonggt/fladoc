@@ -4,48 +4,66 @@ import mistune
 
 
 class Documentation:
-    @classmethod
-    def get_doc_versions(cls):
+    def __init__(self, cache):
+        self.cache = cache
+
+    @staticmethod
+    def get_doc_versions():
         return {
             'master': 'Master',
             '0.12': '0.12'
         }
 
-    @classmethod
-    def get(cls, version, page):
-        path = cls.base_path('/resources/docs/' + version + '/' + page + '.md')
+    def get(self, version, page):
+        cache_key = 'docs.' + version + '.' + page
+
+        content = self.cache.get(cache_key)
+
+        if content is not None:
+            return content
+
+        path = self.base_path('/resources/docs/' + version + '/' + page + '.md')
 
         if not os.path.isfile(path):
             return None
 
-        return cls.replace_links(version, cls.markdown(cls.read_file(path)))
+        content = self.replace_links(version, mistune.markdown(self.read_file(path), False))
 
-    @classmethod
-    def get_index(cls, version, page):
-        path = cls.base_path('/resources/docs/' + version + '/documentation.md')
+        self.cache.set(cache_key, content, timeout=5 * 60)
+
+        return content
+
+    def get_index(self, version):
+        cache_key = 'docs.' + version + '.index'
+
+        content = self.cache.get(cache_key)
+
+        if content is not None:
+            return content
+
+        path = self.base_path('/resources/docs/' + version + '/documentation.md')
 
         if not os.path.isfile(path):
             return None
 
-        return cls.replace_links(version, cls.markdown(cls.read_file(path)))
+        content = self.replace_links(version, mistune.markdown(self.read_file(path), False))
 
-    @classmethod
-    def replace_links(cls, version, content):
+        self.cache.set(cache_key, content, timeout=5 * 60)
+
+        return content
+
+    @staticmethod
+    def replace_links(version, content):
         return content.replace('{{version}}', version)
 
-    @classmethod
-    def markdown(cls, text):
-        return mistune.markdown(text, False)
+    def section_exist(self, version, page):
+        return os.path.isfile(self.base_path('/resources/docs/' + version + '/' + page + '.md'))
 
-    @classmethod
-    def section_exist(cls, version, page):
-        return os.path.isfile(cls.base_path('/resources/docs/' + version + '/' + page + '.md'))
-
-    @classmethod
-    def base_path(cls, path):
+    @staticmethod
+    def base_path(path):
         return os.getcwd() + path
 
-    @classmethod
-    def read_file(cls, path):
+    @staticmethod
+    def read_file(path):
         with io.open(path, 'r', encoding='utf8') as f:
             return f.read()
