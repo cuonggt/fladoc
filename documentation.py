@@ -25,7 +25,7 @@ class Documentation:
         path = self.base_path('/resources/docs/' + version + '/' + page + '.md')
 
         if not os.path.isfile(path):
-            return None
+            return ''
 
         content = self.replace_links(version, mistune.markdown(self.read_file(path), False))
 
@@ -34,23 +34,7 @@ class Documentation:
         return content
 
     def get_index(self, version):
-        cache_key = 'docs.' + version + '.index'
-
-        content = self.cache.get(cache_key)
-
-        if content is not None:
-            return content
-
-        path = self.base_path('/resources/docs/' + version + '/documentation.md')
-
-        if not os.path.isfile(path):
-            return None
-
-        content = self.replace_links(version, mistune.markdown(self.read_file(path), False))
-
-        self.cache.set(cache_key, content, timeout=5 * 60)
-
-        return content
+        return self.get(version, 'index')
 
     def section_exist(self, version, page):
         return os.path.isfile(self.base_path('/resources/docs/' + version + '/' + page + '.md'))
