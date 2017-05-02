@@ -26,14 +26,14 @@ def show(version, page=None):
     if not is_version(version):
         return redirect('/docs/' + DEFAULT_VERSION + '/' + version, 301)
 
-    if page is None:
+    if not page:
         page = ''
 
     section_page = page if page else 'installation'
 
     content = docs.get(version, section_page)
 
-    if content is None:
+    if not content:
         abort(404)
 
     title = html.fromstring(content).xpath('//h1')

@@ -3,3 +3,4 @@
 *.pyc
 /resources/docs
 /node_modules
+*.egg-info

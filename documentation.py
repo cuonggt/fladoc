@@ -19,11 +19,11 @@ class Documentation:
 
         content = self.cache.get(cache_key)
 
-        if content is not None:
-            return content
+        path = self.page_path(version, page)
 
-        path = self.base_path('/resources/docs/' + version + '/' + page + '.md')
+        return content if content else self.read_content_and_cache(version, path, cache_key)
 
+    def read_content_and_cache(self, version, path, cache_key):
         if not os.path.isfile(path):
             return ''
 
@@ -37,7 +37,10 @@ class Documentation:
         return self.get(version, 'index')
 
     def section_exist(self, version, page):
-        return os.path.isfile(self.base_path('/resources/docs/' + version + '/' + page + '.md'))
+        return os.path.isfile(self.page_path(version, page))
+
+    def page_path(self, version, page):
+        return self.base_path('/resources/docs/' + version + '/' + page + '.md')
 
     @staticmethod
     def replace_links(version, content):
